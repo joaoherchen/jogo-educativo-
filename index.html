@@ -1,1 +1,79 @@
-Flashcards de Ciências - 6º Ano
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BioAventura - Quiz de Ciências</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <header>
+        <h1>🌱 BioAventura</h1>
+        <p>O desafio dos seres vivos!</p>
+    </header>
+
+    <main>
+        <section id="inicio" class="tela">
+            <div class="card">
+                <h2>🧪 Bem-vindo!</h2>
+                <p>
+                    Teste seus conhecimentos sobre seres vivos,
+                    ecossistemas e meio ambiente.
+                </p>
+
+                <button id="btnIniciar">🚀 Começar</button>
+            </div>
+        </section>
+
+        <section id="jogo" class="tela escondido">
+            <div class="card">
+
+                <div class="informacoes">
+                    <span>⭐ Pontos: <strong id="pontos">0</strong></span>
+                    <span>❤️ Vidas: <strong id="vidas">3</strong></span>
+                </div>
+
+                <p id="numeroPergunta">Pergunta 1 de 10</p>
+
+                <h2 id="pergunta">
+                    Pergunta aparecerá aqui
+                </h2>
+
+                <div id="opcoes" class="opcoes"></div>
+
+                <p id="feedback"></p>
+
+                <button id="btnProxima" class="escondido">
+                    ➡️ Próxima
+                </button>
+
+            </div>
+        </section>
+
+        <section id="final" class="tela escondido">
+            <div class="card">
+                <h2>🏆 Fim da aventura!</h2>
+
+                <p id="resultado"></p>
+
+                <h3>
+                    Sua pontuação:
+                    <span id="pontuacaoFinal">0</span>
+                </h3>
+
+                <button id="btnReiniciar">
+                    🔄 Jogar novamente
+                </button>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>🌎 BioAventura — Projeto educativo de Ciências</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
