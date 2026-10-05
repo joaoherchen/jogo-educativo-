@@ -1,653 +1,169 @@
-```javascript
-// ================================
-// BIOAVENTURA - JOGO DE CIÊNCIAS
-// ================================
-
-let pontuacao = 0;
-
-
-// ================================
-// PERGUNTAS DO QUIZ
-// ================================
-
-const perguntasQuiz = [
-    {
-        pergunta: "Qual destes é um ser vivo?",
-        opcoes: ["Pedra", "Árvore", "Água", "Sol"],
-        correta: 1
-    },
-    {
-        pergunta: "Qual é o principal produtor de um ecossistema?",
-        opcoes: ["Plantas", "Leões", "Fungos", "Bactérias"],
-        correta: 0
-    },
-    {
-        pergunta: "O que é um ecossistema?",
-        opcoes: [
-            "Apenas um grupo de animais",
-            "Apenas as plantas de um lugar",
-            "Seres vivos e elementos não vivos interagindo",
-            "Somente a água de um ambiente"
-        ],
-        correta: 2
-    },
-    {
-        pergunta: "Qual organismo é um consumidor?",
-        opcoes: ["Capim", "Alga", "Coelho", "Árvore"],
-        correta: 2
-    },
-    {
-        pergunta: "Qual é a principal fonte de energia para a maioria dos ecossistemas?",
-        opcoes: ["Lua", "Sol", "Vento", "Solo"],
-        correta: 1
-    },
-    {
-        pergunta: "Qual destes atua na decomposição da matéria orgânica?",
-        opcoes: ["Fungos", "Girassóis", "Coelhos", "Águias"],
-        correta: 0
-    }
+// Banco de Conteúdo de Ciências (6º Ano)
+const scienceData = [
+  {
+    question: "Qual é a camada mais interna e quente da Terra?",
+    options: ["Núcleo", "Manto", "Crosta terrestre", "Litosfera"],
+    answer: 0,
+    explanation: "O Núcleo é a camada central da Terra, composta principalmente por ferro e níquel, alcançando altíssimas temperaturas."
+  },
+  {
+    question: "Qual é a mudança do estado gasoso para o estado líquido?",
+    options: ["Condensação", "Vaporização", "Fusão", "Sublimação"],
+    answer: 0,
+    explanation: "A Condensação ocorre quando o vapor de água esfria e retorna ao estado líquido (exemplo: as gotinhas na tampa da panela)."
+  },
+  {
+    question: "Qual organela é responsável pela fotossíntese nas células vegetais?",
+    options: ["Cloroplasto", "Mitocôndria", "Núcleo", "Ribossomo"],
+    answer: 0,
+    explanation: "Os Cloroplastos possuem clorofila (pigmento verde) e captam a luz do sol para fabricar o alimento da planta."
+  },
+  {
+    question: "Na cadeia alimentar, qual é o papel desempenhado pelas plantas?",
+    options: ["Produtores", "Consumidores primários", "Decompositores", "Consumidores secundários"],
+    answer: 0,
+    explanation: "As plantas são Produtoras porque conseguem produzir o próprio alimento por meio do processo de fotossíntese."
+  },
+  {
+    question: "Qual método é mais adequado para separar uma mistura de água e areia?",
+    options: ["Filtração", "Evaporação", "Catação", "Atração magnética"],
+    answer: 0,
+    explanation: "A Filtração retém os grãos sólidos de areia no filtro enquanto a água líquida passa normalmente."
+  }
 ];
 
+// Estado do Jogo
+let currentCardIndex = 0;
+let currentQuestionIndex = 0;
+let score = 0;
+let lives = 3;
 
-// ================================
-// FLASHCARDS
-// ================================
+// Elementos do DOM
+const menuScreen = document.getElementById("menu-screen");
+const flashcardScreen = document.getElementById("flashcard-screen");
+const quizScreen = document.getElementById("quiz-screen");
+const endScreen = document.getElementById("end-screen");
 
-const flashcards = [
-    [
-        "Produtores",
-        "São seres vivos, como as plantas, que produzem seu próprio alimento, geralmente por fotossíntese."
-    ],
-    [
-        "Ecossistema",
-        "É o conjunto de seres vivos e elementos não vivos que interagem em determinado ambiente."
-    ],
-    [
-        "Decompositores",
-        "Fungos e muitas bactérias decompõem restos de seres vivos e devolvem nutrientes ao ambiente."
-    ],
-    [
-        "Sol",
-        "É a principal fonte de energia para a maioria dos ecossistemas."
-    ],
-    [
-        "Consumidores",
-        "São seres vivos que obtêm energia alimentando-se de outros organismos."
-    ]
-];
+const btnModeFlashcard = document.getElementById("btn-mode-flashcard");
+const btnModeQuiz = document.getElementById("btn-mode-quiz");
+const btnBackMenu1 = document.getElementById("btn-back-menu-1");
+const btnRestart = document.getElementById("btn-restart");
 
+// Elementos Flashcards
+const flashcard = document.getElementById("flashcard");
+const flashcardQuestion = document.getElementById("flashcard-question");
+const flashcardAnswer = document.getElementById("flashcard-answer");
+const flashcardCounter = document.getElementById("flashcard-counter");
+const btnPrevCard = document.getElementById("btn-prev-card");
+const btnNextCard = document.getElementById("btn-next-card");
 
-// ================================
-// VERDADEIRO OU FALSO
-// ================================
+// Elementos Quiz
+const questionNumber = document.getElementById("question-number");
+const questionText = document.getElementById("question-text");
+const optionsContainer = document.getElementById("options-container");
+const scoreDisplay = document.getElementById("score-display");
+const livesDisplay = document.getElementById("lives-display");
 
-const perguntasVF = [
-    [
-        "As plantas são produtoras porque conseguem produzir seu próprio alimento.",
-        true
-    ],
-    [
-        "A água é um ser vivo.",
-        false
-    ],
-    [
-        "Os decompositores ajudam a reciclar nutrientes no ambiente.",
-        true
-    ],
-    [
-        "O Sol é uma fonte importante de energia para os ecossistemas.",
-        true
-    ],
-    [
-        "Todos os animais produzem seu próprio alimento.",
-        false
-    ],
-    [
-        "Um ecossistema possui apenas seres vivos.",
-        false
-    ]
-];
+// Eventos de Navegação
+btnModeFlashcard.addEventListener("click", startFlashcards);
+btnModeQuiz.addEventListener("click", startQuiz);
+btnBackMenu1.addEventListener("click", showMenu);
+btnRestart.addEventListener("click", showMenu);
 
+flashcard.addEventListener("click", () => flashcard.classList.toggle("flipped"));
+btnPrevCard.addEventListener("click", () => changeFlashcard(-1));
+btnNextCard.addEventListener("click", () => changeFlashcard(1));
 
-// ================================
-// VARIÁVEIS DOS JOGOS
-// ================================
-
-let quizAtual = 0;
-let vidas = 3;
-let quizRespondida = false;
-
-let flashAtual = 0;
-let flashVirado = false;
-
-let vfAtual = 0;
-let vfRespondida = false;
-
-
-// ================================
-// FUNÇÕES AUXILIARES
-// ================================
-
-function el(id) {
-    return document.getElementById(id);
+function showMenu() {
+  [flashcardScreen, quizScreen, endScreen].forEach(s => s.classList.remove("active"));
+  menuScreen.classList.add("active");
 }
 
-
-function esconderTelas() {
-
-    const telas = [
-        "menu",
-        "quiz",
-        "flashcards",
-        "verdadeiro",
-        "resultado"
-    ];
-
-    telas.forEach(id => {
-
-        const tela = el(id);
-
-        if (tela) {
-            tela.classList.add("escondido");
-        }
-
-    });
+/* --- MODO FLASHCARDS --- */
+function startFlashcards() {
+  menuScreen.classList.remove("active");
+  flashcardScreen.classList.add("active");
+  currentCardIndex = 0;
+  loadFlashcard();
 }
 
-
-function atualizarPontos() {
-
-    if (el("pontosMenu")) {
-        el("pontosMenu").textContent = pontuacao;
-    }
-
-    if (el("quizPontos")) {
-        el("quizPontos").textContent = pontuacao;
-    }
-
-    if (el("vfPontos")) {
-        el("vfPontos").textContent = pontuacao;
-    }
+function loadFlashcard() {
+  flashcard.classList.remove("flipped");
+  const data = scienceData[currentCardIndex];
+  flashcardQuestion.textContent = data.question;
+  flashcardAnswer.textContent = data.explanation;
+  flashcardCounter.textContent = `Card ${currentCardIndex + 1} de ${scienceData.length}`;
 }
 
-
-function adicionarPontos(valor) {
-
-    pontuacao += valor;
-
-    atualizarPontos();
+function changeFlashcard(direction) {
+  currentCardIndex += direction;
+  if (currentCardIndex < 0) currentCardIndex = scienceData.length - 1;
+  if (currentCardIndex >= scienceData.length) currentCardIndex = 0;
+  loadFlashcard();
 }
 
-
-// ================================
-// NAVEGAÇÃO ENTRE MODOS
-// ================================
-
-function abrirModo(modo) {
-
-    esconderTelas();
-
-    if (modo === "quiz") {
-
-        el("quiz").classList.remove("escondido");
-
-        iniciarQuiz();
-
-    }
-
-    else if (modo === "flashcards") {
-
-        el("flashcards").classList.remove("escondido");
-
-        iniciarFlashcards();
-
-    }
-
-    else if (modo === "verdadeiro") {
-
-        el("verdadeiro").classList.remove("escondido");
-
-        iniciarVF();
-
-    }
+/* --- MODO QUIZ --- */
+function startQuiz() {
+  menuScreen.classList.remove("active");
+  quizScreen.classList.add("active");
+  currentQuestionIndex = 0;
+  score = 0;
+  lives = 3;
+  updateHUD();
+  loadQuestion();
 }
 
+function loadQuestion() {
+  const data = scienceData[currentQuestionIndex];
+  questionNumber.textContent = `Pergunta ${currentQuestionIndex + 1} de ${scienceData.length}`;
+  questionText.textContent = data.question;
+  optionsContainer.innerHTML = "";
 
-function voltarMenu() {
-
-    esconderTelas();
-
-    el("menu").classList.remove("escondido");
-
-    atualizarPontos();
+  data.options.forEach((opt, idx) => {
+    const btn = document.createElement("button");
+    btn.classList.add("btn-option");
+    btn.textContent = opt;
+    btn.onclick = () => selectOption(idx, btn);
+    optionsContainer.appendChild(btn);
+  });
 }
 
+function selectOption(idx, btn) {
+  const data = scienceData[currentQuestionIndex];
+  const buttons = optionsContainer.querySelectorAll(".btn-option");
+  buttons.forEach(b => b.disabled = true);
 
-// ================================
-// QUIZ
-// ================================
+  if (idx === data.answer) {
+    btn.classList.add("correct");
+    score += 20;
+  } else {
+    btn.classList.add("wrong");
+    buttons[data.answer].classList.add("correct");
+    lives--;
+  }
 
-function iniciarQuiz() {
+  updateHUD();
 
-    quizAtual = 0;
-    vidas = 3;
-    quizRespondida = false;
-
-    mostrarQuiz();
+  setTimeout(() => {
+    if (lives <= 0) {
+      endGame(false);
+    } else if (currentQuestionIndex + 1 < scienceData.length) {
+      currentQuestionIndex++;
+      loadQuestion();
+    } else {
+      endGame(true);
+    }
+  }, 1200);
 }
 
-
-function mostrarQuiz() {
-
-    const pergunta = perguntasQuiz[quizAtual];
-
-    quizRespondida = false;
-
-    el("quizNumero").textContent =
-        `Pergunta ${quizAtual + 1} de ${perguntasQuiz.length}`;
-
-    el("quizPergunta").textContent =
-        pergunta.pergunta;
-
-    el("quizVidas").textContent =
-        "❤️".repeat(vidas) + "🖤".repeat(3 - vidas);
-
-    el("quizFeedback").textContent = "";
-
-    el("quizProxima").classList.add("escondido");
-
-
-    const opcoes = el("quizOpcoes");
-
-    opcoes.innerHTML = "";
-
-
-    pergunta.opcoes.forEach((opcao, indice) => {
-
-        const botao = document.createElement("button");
-
-        botao.className = "opcao";
-
-        botao.textContent = opcao;
-
-        botao.addEventListener("click", function () {
-
-            responderQuiz(indice);
-
-        });
-
-        opcoes.appendChild(botao);
-
-    });
-
-
-    atualizarPontos();
+function updateHUD() {
+  scoreDisplay.textContent = `Pontos: ${score}`;
+  livesDisplay.textContent = `Vidas: ${"❤️".repeat(lives)}`;
 }
 
-
-function responderQuiz(indice) {
-
-    if (quizRespondida || vidas <= 0) {
-        return;
-    }
-
-    quizRespondida = true;
-
-    const pergunta = perguntasQuiz[quizAtual];
-
-    const botoes =
-        [...el("quizOpcoes").querySelectorAll("button")];
-
-
-    botoes.forEach(botao => {
-
-        botao.disabled = true;
-
-    });
-
-
-    if (indice === pergunta.correta) {
-
-        adicionarPontos(10);
-
-        el("quizFeedback").textContent =
-            "🎉 Correto! Você ganhou 10 pontos!";
-
-    }
-
-    else {
-
-        vidas--;
-
-        el("quizVidas").textContent =
-            "❤️".repeat(vidas) +
-            "🖤".repeat(3 - vidas);
-
-        el("quizFeedback").textContent =
-            `❌ Incorreto! A resposta correta é: ${pergunta.opcoes[pergunta.correta]}`;
-
-    }
-
-
-    if (vidas <= 0) {
-
-        el("quizProxima").textContent =
-            "🏆 Ver resultado";
-
-    }
-
-    else if (quizAtual === perguntasQuiz.length - 1) {
-
-        el("quizProxima").textContent =
-            "🏆 Ver resultado";
-
-    }
-
-    else {
-
-        el("quizProxima").textContent =
-            "➡️ Próxima pergunta";
-
-    }
-
-
-    el("quizProxima").classList.remove("escondido");
+function endGame(won) {
+  quizScreen.classList.remove("active");
+  endScreen.classList.add("active");
+  document.getElementById("end-title").textContent = won ? "🎉 Parabéns! Mestre em Ciências!" : "💔 Fim de Jogo!";
+  document.getElementById("final-score-text").textContent = `Você conquistou ${score} pontos.`;
 }
-
-
-function proximaQuiz() {
-
-    if (!quizRespondida) {
-        return;
-    }
-
-
-    if (
-        vidas <= 0 ||
-        quizAtual >= perguntasQuiz.length - 1
-    ) {
-
-        mostrarResultado();
-
-        return;
-
-    }
-
-
-    quizAtual++;
-
-    mostrarQuiz();
-}
-
-
-// ================================
-// FLASHCARDS
-// ================================
-
-function iniciarFlashcards() {
-
-    flashAtual = 0;
-    flashVirado = false;
-
-    mostrarFlashcard();
-}
-
-
-function mostrarFlashcard() {
-
-    const card = flashcards[flashAtual];
-
-    el("flashNumero").textContent =
-        `Cartão ${flashAtual + 1} de ${flashcards.length}`;
-
-    el("flashFrente").textContent =
-        card[0];
-
-    el("flashVerso").textContent =
-        card[1];
-
-    el("flashVerso").classList.add("escondido");
-
-    flashVirado = false;
-}
-
-
-function virarFlashcard() {
-
-    flashVirado = !flashVirado;
-
-
-    if (flashVirado) {
-
-        el("flashVerso").classList.remove("escondido");
-
-    }
-
-    else {
-
-        el("flashVerso").classList.add("escondido");
-
-    }
-}
-
-
-function proximoFlashcard() {
-
-    flashAtual++;
-
-
-    if (flashAtual >= flashcards.length) {
-
-        flashAtual = 0;
-
-    }
-
-
-    mostrarFlashcard();
-}
-
-
-// ================================
-// VERDADEIRO OU FALSO
-// ================================
-
-function iniciarVF() {
-
-    vfAtual = 0;
-    vfRespondida = false;
-
-    mostrarVF();
-}
-
-
-function mostrarVF() {
-
-    const pergunta = perguntasVF[vfAtual];
-
-    vfRespondida = false;
-
-
-    el("vfNumero").textContent =
-        `Afirmação ${vfAtual + 1} de ${perguntasVF.length}`;
-
-    el("vfPergunta").textContent =
-        pergunta[0];
-
-    el("vfFeedback").textContent = "";
-
-    el("vfProxima").classList.add("escondido");
-
-
-    const botoes =
-        document.querySelectorAll("#verdadeiro .vf-btn");
-
-
-    botoes.forEach(botao => {
-
-        botao.disabled = false;
-
-    });
-
-
-    atualizarPontos();
-}
-
-
-function responderVF(resposta) {
-
-    if (vfRespondida) {
-        return;
-    }
-
-    vfRespondida = true;
-
-
-    const correta = perguntasVF[vfAtual][1];
-
-
-    const botoes =
-        document.querySelectorAll("#verdadeiro .vf-btn");
-
-
-    botoes.forEach(botao => {
-
-        botao.disabled = true;
-
-    });
-
-
-    if (resposta === correta) {
-
-        adicionarPontos(10);
-
-        el("vfFeedback").textContent =
-            "🎉 Correto! Você ganhou 10 pontos!";
-
-    }
-
-    else {
-
-        el("vfFeedback").textContent =
-            `❌ Incorreto! A resposta era ${correta ? "Verdadeiro" : "Falso"}.`;
-
-    }
-
-
-    if (vfAtual === perguntasVF.length - 1) {
-
-        el("vfProxima").textContent =
-            "🏆 Ver resultado";
-
-    }
-
-    else {
-
-        el("vfProxima").textContent =
-            "➡️ Próxima";
-
-    }
-
-
-    el("vfProxima").classList.remove("escondido");
-}
-
-
-function proximaVF() {
-
-    if (!vfRespondida) {
-        return;
-    }
-
-
-    if (vfAtual >= perguntasVF.length - 1) {
-
-        mostrarResultado();
-
-        return;
-
-    }
-
-
-    vfAtual++;
-
-    mostrarVF();
-}
-
-
-// ================================
-// RESULTADO
-// ================================
-
-function mostrarResultado() {
-
-    esconderTelas();
-
-    el("resultado").classList.remove("escondido");
-
-
-    el("pontuacaoFinal").textContent =
-        `${pontuacao} pontos`;
-
-
-    if (pontuacao >= 80) {
-
-        el("mensagemResultado").textContent =
-            "🏆 Excelente! Você mandou muito bem!";
-
-    }
-
-    else if (pontuacao >= 40) {
-
-        el("mensagemResultado").textContent =
-            "🌟 Muito bem! Continue estudando Ciências!";
-
-    }
-
-    else {
-
-        el("mensagemResultado").textContent =
-            "📚 Continue praticando! Você vai aprender cada vez mais!";
-
-    }
-}
-
-
-// ================================
-// REINICIAR JOGO
-// ================================
-
-function reiniciarJogo() {
-
-    pontuacao = 0;
-
-    atualizarPontos();
-
-    voltarMenu();
-}
-
-
-// ================================
-// INICIALIZAÇÃO
-// ================================
-
-document.addEventListener("DOMContentLoaded", function () {
-
-    atualizarPontos();
-
-    el("quizProxima").addEventListener(
-        "click",
-        proximaQuiz
-    );
-
-    el("vfProxima").addEventListener(
-        "click",
-        proximaVF
-    );
-
-
-    esconderTelas();
-
-    el("menu").classList.remove("escondido");
-
-});
-```
