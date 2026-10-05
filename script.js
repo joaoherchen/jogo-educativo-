@@ -1,4 +1,7 @@
-
+```javascript
+// ==============================
+// SISTEMA GERAL
+// ==============================
 
 let pontuacao = 0;
 
@@ -46,7 +49,9 @@ function voltarMenu() {
 }
 
 
-
+// ==============================
+// QUIZ
+// ==============================
 
 const perguntasQuiz = [
 
@@ -203,7 +208,9 @@ document
     });
 
 
-
+// ==============================
+// FLASHCARDS
+// ==============================
 
 const flashcards = [
 
@@ -284,6 +291,9 @@ function proximoFlashcard() {
 }
 
 
+// ==============================
+// VERDADEIRO OU FALSO
+// ==============================
 
 const perguntasVF = [
 
@@ -374,7 +384,9 @@ function proximoVF() {
 }
 
 
-
+// ==============================
+// DESAFIO RELÂMPAGO
+// ==============================
 
 const perguntasRelampago = [
 
@@ -516,7 +528,9 @@ function proximaRelampago() {
 }
 
 
-
+// ==============================
+// CLASSIFICAÇÃO
+// ==============================
 
 const itensClassificacao = [
 
@@ -612,7 +626,9 @@ function proximaClassificacao() {
 }
 
 
-
+// ==============================
+// ASSOCIAÇÃO
+// ==============================
 
 const associacoes = [
 
@@ -734,7 +750,9 @@ function proximaAssociacao() {
 }
 
 
-
+// ==============================
+// RESULTADO FINAL
+// ==============================
 
 function mostrarResultado() {
 
