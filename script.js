@@ -1,3 +1,7 @@
+// ======================================================
+// BANCO DE PERGUNTAS
+// ======================================================
+
 const perguntas = [
     {
         pergunta: "Qual destes é um ser vivo?",
@@ -31,7 +35,12 @@ const perguntas = [
 
     {
         pergunta: "Qual grupo é responsável pela decomposição da matéria orgânica?",
-        opcoes: ["Fungos e bactérias", "Peixes", "Aves", "Mamíferos"],
+        opcoes: [
+            "Fungos e bactérias",
+            "Peixes",
+            "Aves",
+            "Mamíferos"
+        ],
         resposta: "Fungos e bactérias"
     },
 
@@ -49,7 +58,12 @@ const perguntas = [
 
     {
         pergunta: "O conjunto formado pelos seres vivos e pelos elementos não vivos de uma região é chamado de:",
-        opcoes: ["Ecossistema", "População", "Planeta", "Espécie"],
+        opcoes: [
+            "Ecossistema",
+            "População",
+            "Planeta",
+            "Espécie"
+        ],
         resposta: "Ecossistema"
     },
 
@@ -65,86 +79,302 @@ const perguntas = [
     }
 ];
 
-let perguntaAtual = 0;
-let pontos = 0;
-let vidas = 3;
+
+// ======================================================
+// ELEMENTOS DAS TELAS
+// ======================================================
 
 const inicio = document.getElementById("inicio");
-const jogo = document.getElementById("jogo");
+const quiz = document.getElementById("quiz");
+const flashcards = document.getElementById("flashcards");
+const verdadeiroFalso = document.getElementById("verdadeiroFalso");
 const final = document.getElementById("final");
 
-const pergunta = document.getElementById("pergunta");
-const opcoes = document.getElementById("opcoes");
-const feedback = document.getElementById("feedback");
 
-const pontosElemento = document.getElementById("pontos");
-const vidasElemento = document.getElementById("vidas");
-const numeroPergunta = document.getElementById("numeroPergunta");
+// ======================================================
+// BOTÕES DO MENU
+// ======================================================
 
-const btnIniciar = document.getElementById("btnIniciar");
-const btnProxima = document.getElementById("btnProxima");
-const btnReiniciar = document.getElementById("btnReiniciar");
+const btnQuiz = document.getElementById("btnQuiz");
+const btnFlashcards = document.getElementById("btnFlashcards");
+const btnVerdadeiroFalso =
+    document.getElementById("btnVerdadeiroFalso");
 
-const resultado = document.getElementById("resultado");
-const pontuacaoFinal = document.getElementById("pontuacaoFinal");
+const btnVoltar = document.querySelectorAll(".btnVoltar");
 
-
-btnIniciar.addEventListener("click", iniciarJogo);
-btnProxima.addEventListener("click", proximaPergunta);
-btnReiniciar.addEventListener("click", reiniciarJogo);
+const btnMenuFinal = document.getElementById("btnMenuFinal");
 
 
-function iniciarJogo() {
+// ======================================================
+// QUIZ
+// ======================================================
+
+let perguntaAtual = 0;
+let pontosQuiz = 0;
+let vidasQuiz = 3;
+
+const perguntaElemento =
+    document.getElementById("pergunta");
+
+const opcoesElemento =
+    document.getElementById("opcoes");
+
+const feedbackQuiz =
+    document.getElementById("feedbackQuiz");
+
+const numeroPergunta =
+    document.getElementById("numeroPergunta");
+
+const pontosQuizElemento =
+    document.getElementById("pontosQuiz");
+
+const vidasQuizElemento =
+    document.getElementById("vidasQuiz");
+
+const btnProxima =
+    document.getElementById("btnProxima");
+
+
+// ======================================================
+// FLASHCARDS
+// ======================================================
+
+let flashAtual = 0;
+let mostrandoResposta = false;
+
+const flashPergunta =
+    document.getElementById("flashPergunta");
+
+const flashResposta =
+    document.getElementById("flashResposta");
+
+const contadorFlashcard =
+    document.getElementById("contadorFlashcard");
+
+const btnVirar =
+    document.getElementById("btnVirar");
+
+const btnAnterior =
+    document.getElementById("btnAnterior");
+
+const btnProximoFlash =
+    document.getElementById("btnProximoFlash");
+
+
+// ======================================================
+// VERDADEIRO OU FALSO
+// ======================================================
+
+const perguntasVF = [
+    {
+        pergunta: "A água é um elemento essencial para a vida.",
+        resposta: true
+    },
+
+    {
+        pergunta: "As plantas são consumidores na cadeia alimentar.",
+        resposta: false
+    },
+
+    {
+        pergunta: "O Sol é uma importante fonte de energia para os ecossistemas.",
+        resposta: true
+    },
+
+    {
+        pergunta: "Os fungos podem atuar como decompositores.",
+        resposta: true
+    },
+
+    {
+        pergunta: "Todos os animais produzem seu próprio alimento.",
+        resposta: false
+    },
+
+    {
+        pergunta: "Os peixes respiram principalmente por meio das brânquias.",
+        resposta: true
+    },
+
+    {
+        pergunta: "A reciclagem pode ajudar na preservação do meio ambiente.",
+        resposta: true
+    },
+
+    {
+        pergunta: "Uma pedra é considerada um ser vivo.",
+        resposta: false
+    },
+
+    {
+        pergunta: "Os seres humanos fazem parte dos ecossistemas.",
+        resposta: true
+    },
+
+    {
+        pergunta: "Desmatar florestas sempre ajuda o meio ambiente.",
+        resposta: false
+    }
+];
+
+let perguntaAtualVF = 0;
+let pontosVF = 0;
+let vidasVF = 3;
+
+const perguntaVF =
+    document.getElementById("perguntaVF");
+
+const numeroVF =
+    document.getElementById("numeroVF");
+
+const feedbackVF =
+    document.getElementById("feedbackVF");
+
+const pontosVFElemento =
+    document.getElementById("pontosVF");
+
+const vidasVFElemento =
+    document.getElementById("vidasVF");
+
+const btnVerdadeiro =
+    document.getElementById("btnVerdadeiro");
+
+const btnFalso =
+    document.getElementById("btnFalso");
+
+const btnProximoVF =
+    document.getElementById("btnProximoVF");
+
+
+// ======================================================
+// RESULTADO
+// ======================================================
+
+const resultado =
+    document.getElementById("resultado");
+
+const pontuacaoFinal =
+    document.getElementById("pontuacaoFinal");
+
+
+// ======================================================
+// FUNÇÃO PARA MOSTRAR UMA TELA
+// ======================================================
+
+function mostrarTela(tela) {
+
     inicio.classList.add("escondido");
-    jogo.classList.remove("escondido");
+    quiz.classList.add("escondido");
+    flashcards.classList.add("escondido");
+    verdadeiroFalso.classList.add("escondido");
+    final.classList.add("escondido");
+
+    tela.classList.remove("escondido");
+}
+
+
+// ======================================================
+// MENU
+// ======================================================
+
+btnQuiz.addEventListener("click", iniciarQuiz);
+
+btnFlashcards.addEventListener(
+    "click",
+    iniciarFlashcards
+);
+
+btnVerdadeiroFalso.addEventListener(
+    "click",
+    iniciarVerdadeiroFalso
+);
+
+btnVoltar.forEach(botao => {
+    botao.addEventListener("click", () => {
+        mostrarTela(inicio);
+    });
+});
+
+btnMenuFinal.addEventListener("click", () => {
+    mostrarTela(inicio);
+});
+
+
+// ======================================================
+// INICIAR QUIZ
+// ======================================================
+
+function iniciarQuiz() {
 
     perguntaAtual = 0;
-    pontos = 0;
-    vidas = 3;
+    pontosQuiz = 0;
+    vidasQuiz = 3;
 
-    atualizarPlacar();
+    mostrarTela(quiz);
+
+    atualizarQuiz();
+
     mostrarPergunta();
 }
 
 
+// ======================================================
+// MOSTRAR PERGUNTA DO QUIZ
+// ======================================================
+
 function mostrarPergunta() {
 
-    feedback.textContent = "";
+    feedbackQuiz.textContent = "";
+
     btnProxima.classList.add("escondido");
 
-    const perguntaAtualObj = perguntas[perguntaAtual];
+    const perguntaAtualObj =
+        perguntas[perguntaAtual];
 
     numeroPergunta.textContent =
         `Pergunta ${perguntaAtual + 1} de ${perguntas.length}`;
 
-    pergunta.textContent = perguntaAtualObj.pergunta;
+    perguntaElemento.textContent =
+        perguntaAtualObj.pergunta;
 
-    opcoes.innerHTML = "";
+    opcoesElemento.innerHTML = "";
 
     perguntaAtualObj.opcoes.forEach(opcao => {
 
-        const botao = document.createElement("button");
+        const botao =
+            document.createElement("button");
 
         botao.textContent = opcao;
+
         botao.classList.add("opcao");
 
-        botao.addEventListener("click", () => {
-            verificarResposta(botao, opcao);
-        });
+        botao.addEventListener(
+            "click",
+            () => verificarResposta(botao, opcao)
+        );
 
-        opcoes.appendChild(botao);
+        opcoesElemento.appendChild(botao);
     });
 }
 
 
-function verificarResposta(botao, respostaEscolhida) {
+// ======================================================
+// VERIFICAR RESPOSTA DO QUIZ
+// ======================================================
+
+function verificarResposta(
+    botao,
+    respostaEscolhida
+) {
 
     const respostaCorreta =
         perguntas[perguntaAtual].resposta;
 
-    const botoes = document.querySelectorAll(".opcao");
+    const botoes =
+        document.querySelectorAll(".opcao");
 
     botoes.forEach(btn => {
+
         btn.disabled = true;
 
         if (btn.textContent === respostaCorreta) {
@@ -154,33 +384,38 @@ function verificarResposta(botao, respostaEscolhida) {
 
     if (respostaEscolhida === respostaCorreta) {
 
-        pontos += 10;
+        pontosQuiz += 10;
 
-        feedback.textContent =
+        feedbackQuiz.textContent =
             "🎉 Muito bem! Você acertou!";
 
-        feedback.style.color = "#2e7d32";
+        feedbackQuiz.style.color = "#2e7d32";
 
     } else {
 
-        vidas--;
+        vidasQuiz--;
 
         botao.classList.add("errada");
 
-        feedback.textContent =
+        feedbackQuiz.textContent =
             `❌ Ops! A resposta correta era: ${respostaCorreta}`;
 
-        feedback.style.color = "#c62828";
+        feedbackQuiz.style.color = "#c62828";
     }
 
-    atualizarPlacar();
+    atualizarQuiz();
 
-    if (vidas <= 0) {
+    if (vidasQuiz <= 0) {
 
-        feedback.textContent =
+        feedbackQuiz.textContent =
             "💔 Você ficou sem vidas!";
 
-        setTimeout(finalizarJogo, 1200);
+        setTimeout(() => {
+            finalizarJogo(
+                pontosQuiz,
+                "Quiz"
+            );
+        }, 1000);
 
     } else {
 
@@ -189,56 +424,340 @@ function verificarResposta(botao, respostaEscolhida) {
 }
 
 
-function proximaPergunta() {
+// ======================================================
+// PRÓXIMA PERGUNTA DO QUIZ
+// ======================================================
 
-    perguntaAtual++;
+btnProxima.addEventListener(
+    "click",
+    () => {
 
-    if (perguntaAtual < perguntas.length) {
-        mostrarPergunta();
+        perguntaAtual++;
+
+        if (perguntaAtual < perguntas.length) {
+
+            mostrarPergunta();
+
+        } else {
+
+            finalizarJogo(
+                pontosQuiz,
+                "Quiz"
+            );
+        }
+    }
+);
+
+
+// ======================================================
+// ATUALIZAR QUIZ
+// ======================================================
+
+function atualizarQuiz() {
+
+    pontosQuizElemento.textContent =
+        pontosQuiz;
+
+    vidasQuizElemento.textContent =
+        vidasQuiz;
+}
+
+
+// ======================================================
+// FLASHCARDS
+// ======================================================
+
+function iniciarFlashcards() {
+
+    flashAtual = 0;
+    mostrandoResposta = false;
+
+    mostrarTela(flashcards);
+
+    mostrarFlashcard();
+}
+
+
+function mostrarFlashcard() {
+
+    const card =
+        perguntas[flashAtual];
+
+    contadorFlashcard.textContent =
+        `Cartão ${flashAtual + 1} de ${perguntas.length}`;
+
+    flashPergunta.textContent =
+        card.pergunta;
+
+    flashResposta.textContent =
+        `Resposta: ${card.resposta}`;
+
+    flashResposta.classList.add("escondido");
+
+    mostrandoResposta = false;
+}
+
+
+btnVirar.addEventListener(
+    "click",
+    () => {
+
+        mostrandoResposta =
+            !mostrandoResposta;
+
+        if (mostrandoResposta) {
+
+            flashResposta.classList.remove(
+                "escondido"
+            );
+
+            btnVirar.textContent =
+                "🔙 Esconder resposta";
+
+        } else {
+
+            flashResposta.classList.add(
+                "escondido"
+            );
+
+            btnVirar.textContent =
+                "🔄 Virar cartão";
+        }
+    }
+);
+
+
+btnAnterior.addEventListener(
+    "click",
+    () => {
+
+        if (flashAtual > 0) {
+
+            flashAtual--;
+
+            mostrarFlashcard();
+        }
+    }
+);
+
+
+btnProximoFlash.addEventListener(
+    "click",
+    () => {
+
+        if (flashAtual < perguntas.length - 1) {
+
+            flashAtual++;
+
+            mostrarFlashcard();
+
+        } else {
+
+            flashAtual = 0;
+
+            mostrarFlashcard();
+        }
+    }
+);
+
+
+// ======================================================
+// VERDADEIRO OU FALSO
+// ======================================================
+
+function iniciarVerdadeiroFalso() {
+
+    perguntaAtualVF = 0;
+    pontosVF = 0;
+    vidasVF = 3;
+
+    mostrarTela(verdadeiroFalso);
+
+    atualizarVF();
+
+    mostrarPerguntaVF();
+}
+
+
+function mostrarPerguntaVF() {
+
+    feedbackVF.textContent = "";
+
+    btnProximoVF.classList.add("escondido");
+
+    btnVerdadeiro.disabled = false;
+    btnFalso.disabled = false;
+
+    btnVerdadeiro.classList.remove(
+        "resposta-correta",
+        "resposta-errada"
+    );
+
+    btnFalso.classList.remove(
+        "resposta-correta",
+        "resposta-errada"
+    );
+
+    const pergunta =
+        perguntasVF[perguntaAtualVF];
+
+    numeroVF.textContent =
+        `Pergunta ${perguntaAtualVF + 1} de ${perguntasVF.length}`;
+
+    perguntaVF.textContent =
+        pergunta.pergunta;
+}
+
+
+function responderVF(respostaEscolhida) {
+
+    const pergunta =
+        perguntasVF[perguntaAtualVF];
+
+    const correta =
+        pergunta.resposta;
+
+    btnVerdadeiro.disabled = true;
+    btnFalso.disabled = true;
+
+    const botaoCorreto =
+        correta
+            ? btnVerdadeiro
+            : btnFalso;
+
+    const botaoEscolhido =
+        respostaEscolhida
+            ? btnVerdadeiro
+            : btnFalso;
+
+    botaoCorreto.classList.add(
+        "resposta-correta"
+    );
+
+    if (respostaEscolhida === correta) {
+
+        pontosVF += 10;
+
+        feedbackVF.textContent =
+            "🎉 Correto! Muito bem!";
+
+        feedbackVF.style.color =
+            "#2e7d32";
+
     } else {
-        finalizarJogo();
+
+        vidasVF--;
+
+        botaoEscolhido.classList.add(
+            "resposta-errada"
+        );
+
+        feedbackVF.textContent =
+            `❌ Incorreto! A resposta era ${
+                correta ? "VERDADEIRO" : "FALSO"
+            }.`;
+
+        feedbackVF.style.color =
+            "#c62828";
+    }
+
+    atualizarVF();
+
+    if (vidasVF <= 0) {
+
+        feedbackVF.textContent =
+            "💔 Você ficou sem vidas!";
+
+        setTimeout(() => {
+
+            finalizarJogo(
+                pontosVF,
+                "Verdadeiro ou Falso"
+            );
+
+        }, 1000);
+
+    } else {
+
+        btnProximoVF.classList.remove(
+            "escondido"
+        );
     }
 }
 
 
-function atualizarPlacar() {
+btnVerdadeiro.addEventListener(
+    "click",
+    () => responderVF(true)
+);
 
-    pontosElemento.textContent = pontos;
-    vidasElemento.textContent = vidas;
+btnFalso.addEventListener(
+    "click",
+    () => responderVF(false)
+);
+
+
+btnProximoVF.addEventListener(
+    "click",
+    () => {
+
+        perguntaAtualVF++;
+
+        if (
+            perguntaAtualVF <
+            perguntasVF.length
+        ) {
+
+            mostrarPerguntaVF();
+
+        } else {
+
+            finalizarJogo(
+                pontosVF,
+                "Verdadeiro ou Falso"
+            );
+        }
+    }
+);
+
+
+function atualizarVF() {
+
+    pontosVFElemento.textContent =
+        pontosVF;
+
+    vidasVFElemento.textContent =
+        vidasVF;
 }
 
 
-function finalizarJogo() {
+// ======================================================
+// FINAL DO JOGO
+// ======================================================
 
-    jogo.classList.add("escondido");
-    final.classList.remove("escondido");
+function finalizarJogo(
+    pontuacao,
+    modo
+) {
 
-    pontuacaoFinal.textContent = pontos;
+    mostrarTela(final);
 
-    if (pontos >= 80) {
+    pontuacaoFinal.textContent =
+        pontuacao;
+
+    if (pontuacao >= 80) {
 
         resultado.textContent =
-            "🌟 Excelente! Você é um verdadeiro especialista em Ciências!";
+            `🌟 Excelente! Você foi muito bem no modo ${modo}!`;
 
-    } else if (pontos >= 50) {
+    } else if (pontuacao >= 50) {
 
         resultado.textContent =
-            "👏 Muito bom! Você conhece bastante sobre Ciências!";
+            `👏 Muito bom! Você conhece bastante sobre Ciências!`;
 
     } else {
 
         resultado.textContent =
-            "📚 Continue estudando! Você pode melhorar na próxima rodada!";
+            `📚 Continue estudando! Você pode melhorar na próxima rodada!`;
     }
-}
-
-
-function reiniciarJogo() {
-
-    final.classList.add("escondido");
-    inicio.classList.remove("escondido");
-
-    perguntaAtual = 0;
-    pontos = 0;
-    vidas = 3;
 }
