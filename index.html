@@ -1,79 +1,271 @@
+
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BioAventura - Quiz de Ciências</title>
+    <title>BioAventura - Ciências</title>
     <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
-    <header>
-        <h1>🌱 BioAventura</h1>
-        <p>O desafio dos seres vivos!</p>
-    </header>
+<header>
+    <h1>🌱 BioAventura</h1>
+    <p>O desafio dos seres vivos!</p>
+</header>
 
-    <main>
-        <section id="inicio" class="tela">
-            <div class="card">
-                <h2>🧪 Bem-vindo!</h2>
-                <p>
-                    Teste seus conhecimentos sobre seres vivos,
-                    ecossistemas e meio ambiente.
-                </p>
+<main>
 
-                <button id="btnIniciar">🚀 Começar</button>
+    <!-- MENU PRINCIPAL -->
+    <section id="menu" class="tela">
+        <div class="card">
+            <h2>🎮 Escolha seu desafio</h2>
+            <p>Aprenda Ciências brincando!</p>
+
+            <div class="menu-jogos">
+                <button onclick="abrirModo('quiz')">
+                    🧠 Quiz
+                </button>
+
+                <button onclick="abrirModo('flashcards')">
+                    🃏 Flashcards
+                </button>
+
+                <button onclick="abrirModo('verdadeiro')">
+                    ✅ Verdadeiro ou Falso
+                </button>
+
+                <button onclick="abrirModo('relampago')">
+                    ⚡ Desafio Relâmpago
+                </button>
+
+                <button onclick="abrirModo('classificacao')">
+                    🗂️ Classifique
+                </button>
+
+                <button onclick="abrirModo('associacao')">
+                    🔗 Associe os Pares
+                </button>
             </div>
-        </section>
 
-        <section id="jogo" class="tela escondido">
-            <div class="card">
+            <div class="placar-menu">
+                ⭐ Pontos: <span id="pontosMenu">0</span>
+            </div>
+        </div>
+    </section>
 
-                <div class="informacoes">
-                    <span>⭐ Pontos: <strong id="pontos">0</strong></span>
-                    <span>❤️ Vidas: <strong id="vidas">3</strong></span>
+
+    <!-- QUIZ -->
+    <section id="quiz" class="tela escondido">
+        <div class="card">
+
+            <div class="topo-jogo">
+                <span>⭐ <span id="quizPontos">0</span></span>
+                <span>❤️ <span id="quizVidas">3</span></span>
+            </div>
+
+            <p id="quizNumero"></p>
+
+            <h2 id="quizPergunta"></h2>
+
+            <div id="quizOpcoes" class="opcoes"></div>
+
+            <p id="quizFeedback"></p>
+
+            <button id="quizProxima" class="escondido">
+                ➡️ Próxima
+            </button>
+
+            <button class="voltar" onclick="voltarMenu()">
+                🏠 Menu
+            </button>
+        </div>
+    </section>
+
+
+    <!-- FLASHCARDS -->
+    <section id="flashcards" class="tela escondido">
+        <div class="card">
+
+            <h2>🃏 Flashcards</h2>
+
+            <div id="flashcard" class="flashcard">
+                <div id="flashFrente">
+                    Clique em "Virar" para descobrir!
                 </div>
 
-                <p id="numeroPergunta">Pergunta 1 de 10</p>
+                <div id="flashVerso" class="escondido">
+                </div>
+            </div>
 
-                <h2 id="pergunta">
-                    Pergunta aparecerá aqui
-                </h2>
+            <p id="flashNumero"></p>
 
-                <div id="opcoes" class="opcoes"></div>
+            <div class="botoes">
+                <button onclick="virarFlashcard()">🔄 Virar</button>
+                <button onclick="proximoFlashcard()">➡️ Próximo</button>
+            </div>
 
-                <p id="feedback"></p>
+            <button class="voltar" onclick="voltarMenu()">
+                🏠 Menu
+            </button>
+        </div>
+    </section>
 
-                <button id="btnProxima" class="escondido">
-                    ➡️ Próxima
+
+    <!-- VERDADEIRO OU FALSO -->
+    <section id="verdadeiro" class="tela escondido">
+        <div class="card">
+
+            <h2>✅ Verdadeiro ou Falso</h2>
+
+            <p id="vfNumero"></p>
+
+            <h2 id="vfPergunta"></h2>
+
+            <div class="opcoes">
+                <button onclick="responderVF(true)">
+                    ✅ Verdadeiro
                 </button>
 
-            </div>
-        </section>
-
-        <section id="final" class="tela escondido">
-            <div class="card">
-                <h2>🏆 Fim da aventura!</h2>
-
-                <p id="resultado"></p>
-
-                <h3>
-                    Sua pontuação:
-                    <span id="pontuacaoFinal">0</span>
-                </h3>
-
-                <button id="btnReiniciar">
-                    🔄 Jogar novamente
+                <button onclick="responderVF(false)">
+                    ❌ Falso
                 </button>
             </div>
-        </section>
-    </main>
 
-    <footer>
-        <p>🌎 BioAventura — Projeto educativo de Ciências</p>
-    </footer>
+            <p id="vfFeedback"></p>
 
-    <script src="script.js"></script>
+            <button id="vfProxima"
+                    class="escondido"
+                    onclick="proximoVF()">
+                ➡️ Próxima
+            </button>
+
+            <button class="voltar" onclick="voltarMenu()">
+                🏠 Menu
+            </button>
+        </div>
+    </section>
+
+
+    <!-- DESAFIO RELÂMPAGO -->
+    <section id="relampago" class="tela escondido">
+        <div class="card">
+
+            <h2>⚡ Desafio Relâmpago</h2>
+
+            <div class="timer">
+                ⏱️ <span id="tempo">15</span>s
+            </div>
+
+            <p id="relampagoNumero"></p>
+
+            <h2 id="relampagoPergunta"></h2>
+
+            <div id="relampagoOpcoes" class="opcoes"></div>
+
+            <p id="relampagoFeedback"></p>
+
+            <button class="voltar" onclick="voltarMenu()">
+                🏠 Menu
+            </button>
+        </div>
+    </section>
+
+
+    <!-- CLASSIFICAÇÃO -->
+    <section id="classificacao" class="tela escondido">
+        <div class="card">
+
+            <h2>🗂️ Classifique</h2>
+
+            <p>
+                Clique na categoria correta para cada elemento.
+            </p>
+
+            <h2 id="classItem"></h2>
+
+            <div class="opcoes">
+                <button onclick="classificar('vivo')">
+                    🌱 Ser vivo
+                </button>
+
+                <button onclick="classificar('naovivo')">
+                    💧 Fator não vivo
+                </button>
+            </div>
+
+            <p id="classFeedback"></p>
+
+            <button id="classProxima"
+                    class="escondido"
+                    onclick="proximaClassificacao()">
+                ➡️ Próximo
+            </button>
+
+            <button class="voltar" onclick="voltarMenu()">
+                🏠 Menu
+            </button>
+        </div>
+    </section>
+
+
+    <!-- ASSOCIAÇÃO -->
+    <section id="associacao" class="tela escondido">
+        <div class="card">
+
+            <h2>🔗 Associe os Pares</h2>
+
+            <p>
+                Escolha uma definição para cada conceito.
+            </p>
+
+            <h2 id="assocConceito"></h2>
+
+            <div id="assocOpcoes" class="opcoes"></div>
+
+            <p id="assocFeedback"></p>
+
+            <button id="assocProxima"
+                    class="escondido"
+                    onclick="proximaAssociacao()">
+                ➡️ Próximo
+            </button>
+
+            <button class="voltar" onclick="voltarMenu()">
+                🏠 Menu
+            </button>
+        </div>
+    </section>
+
+
+    <!-- RESULTADO -->
+    <section id="resultado" class="tela escondido">
+        <div class="card">
+
+            <h2>🏆 Desafio concluído!</h2>
+
+            <p id="mensagemResultado"></p>
+
+            <h3>
+                ⭐ Pontuação:
+                <span id="pontuacaoFinal">0</span>
+            </h3>
+
+            <button onclick="voltarMenu()">
+                🏠 Voltar ao menu
+            </button>
+        </div>
+    </section>
+
+</main>
+
+<footer>
+    <p>🌎 BioAventura — Jogo educativo de Ciências</p>
+</footer>
+
+<script src="script.js"></script>
+
 </body>
 </html>
+```
