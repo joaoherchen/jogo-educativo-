@@ -1,3 +1,4 @@
+
 * {
     margin: 0;
     padding: 0;
@@ -6,10 +7,16 @@
 
 body {
     font-family: Arial, sans-serif;
-    background: linear-gradient(135deg, #72d572, #4fc3f7);
     min-height: 100vh;
     display: flex;
     flex-direction: column;
+
+    background: linear-gradient(
+        135deg,
+        #72d572,
+        #4fc3f7
+    );
+
     color: #263238;
 }
 
@@ -18,6 +25,7 @@ header {
     color: white;
     text-align: center;
     padding: 25px 10px;
+
     box-shadow: 0 4px 10px rgba(0,0,0,0.2);
 }
 
@@ -32,23 +40,29 @@ header p {
 
 main {
     flex: 1;
+
     display: flex;
     justify-content: center;
     align-items: center;
+
     padding: 25px;
 }
 
 .tela {
     width: 100%;
-    max-width: 650px;
+    max-width: 700px;
 }
 
 .card {
     background: white;
     padding: 30px;
+
     border-radius: 25px;
+
     text-align: center;
-    box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+
+    box-shadow:
+        0 8px 20px rgba(0,0,0,0.2);
 }
 
 .card h2 {
@@ -62,89 +76,219 @@ main {
     margin-bottom: 20px;
 }
 
+
+/* BOTÕES */
+
 button {
     border: none;
+
     border-radius: 15px;
-    padding: 14px 25px;
+
+    padding: 14px 20px;
+
     background: #ff9800;
+
     color: white;
-    font-size: 1.1rem;
+
+    font-size: 1rem;
+
     font-weight: bold;
+
     cursor: pointer;
+
     transition: 0.2s;
 }
 
 button:hover {
-    transform: scale(1.05);
+    transform: scale(1.04);
+
     background: #f57c00;
 }
 
-.informacoes {
-    display: flex;
-    justify-content: space-between;
-    background: #e3f2fd;
-    padding: 12px;
-    border-radius: 12px;
-    margin-bottom: 20px;
-}
 
-#pergunta {
-    color: #263238;
-    font-size: 1.4rem;
-}
+/* MENU */
 
-.opcoes {
+.menu-jogos {
     display: grid;
-    gap: 12px;
-    margin: 20px 0;
+
+    grid-template-columns:
+        repeat(2, 1fr);
+
+    gap: 15px;
+
+    margin: 25px 0;
 }
 
-.opcao {
-    width: 100%;
-    background: #e8f5e9;
-    color: #263238;
-    border: 3px solid #81c784;
-}
-
-.opcao:hover {
-    background: #c8e6c9;
-}
-
-.opcao.correta {
-    background: #4caf50;
-    color: white;
-    border-color: #2e7d32;
-}
-
-.opcao.errada {
-    background: #ef5350;
-    color: white;
-    border-color: #c62828;
-}
-
-#feedback {
-    font-weight: bold;
-    min-height: 30px;
-}
-
-#btnProxima {
+.menu-jogos button:nth-child(1) {
     background: #1565c0;
 }
 
-#btnReiniciar {
+.menu-jogos button:nth-child(2) {
+    background: #7b1fa2;
+}
+
+.menu-jogos button:nth-child(3) {
     background: #43a047;
 }
+
+.menu-jogos button:nth-child(4) {
+    background: #fb8c00;
+}
+
+.menu-jogos button:nth-child(5) {
+    background: #00897b;
+}
+
+.menu-jogos button:nth-child(6) {
+    background: #8e24aa;
+}
+
+.placar-menu {
+    background: #e3f2fd;
+
+    padding: 15px;
+
+    border-radius: 15px;
+
+    font-weight: bold;
+}
+
+
+/* TOPO */
+
+.topo-jogo {
+    display: flex;
+
+    justify-content: space-between;
+
+    background: #e3f2fd;
+
+    padding: 12px;
+
+    border-radius: 12px;
+
+    margin-bottom: 20px;
+}
+
+
+/* OPÇÕES */
+
+.opcoes {
+    display: grid;
+
+    gap: 12px;
+
+    margin: 20px 0;
+}
+
+.opcoes button {
+    width: 100%;
+}
+
+
+/* FEEDBACK */
+
+#quizFeedback,
+#vfFeedback,
+#relampagoFeedback,
+#classFeedback,
+#assocFeedback {
+    font-weight: bold;
+
+    min-height: 30px;
+}
+
+
+/* FLASHCARD */
+
+.flashcard {
+    min-height: 220px;
+
+    display: flex;
+
+    justify-content: center;
+
+    align-items: center;
+
+    padding: 30px;
+
+    margin: 20px 0;
+
+    border-radius: 20px;
+
+    background: linear-gradient(
+        135deg,
+        #1565c0,
+        #42a5f5
+    );
+
+    color: white;
+
+    font-size: 1.4rem;
+
+    font-weight: bold;
+
+    cursor: pointer;
+}
+
+.botoes {
+    display: flex;
+
+    justify-content: center;
+
+    gap: 12px;
+
+    margin-bottom: 15px;
+}
+
+
+/* TIMER */
+
+.timer {
+    font-size: 2rem;
+
+    font-weight: bold;
+
+    color: #f4511e;
+
+    margin-bottom: 20px;
+}
+
+
+/* BOTÃO VOLTAR */
+
+.voltar {
+    margin-top: 15px;
+
+    background: #607d8b;
+}
+
+.voltar:hover {
+    background: #455a64;
+}
+
+
+/* ESCONDER */
 
 .escondido {
     display: none !important;
 }
 
+
+/* RODAPÉ */
+
 footer {
     background: #263238;
+
     color: white;
+
     text-align: center;
+
     padding: 15px;
 }
+
+
+/* RESPONSIVIDADE */
 
 @media (max-width: 600px) {
 
@@ -156,12 +300,17 @@ footer {
         padding: 20px;
     }
 
-    #pergunta {
-        font-size: 1.2rem;
+    .menu-jogos {
+        grid-template-columns: 1fr;
     }
 
-    .informacoes {
+    .botoes {
         flex-direction: column;
-        gap: 8px;
+    }
+
+    .flashcard {
+        min-height: 180px;
+        font-size: 1.2rem;
     }
 }
+```
